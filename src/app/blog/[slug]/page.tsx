@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 // Redirect vecchi URL /blog/[slug] → /posts/[slug]
-export default function BlogSlugRedirect({ params }: { params: { slug: string } }) {
-  redirect(`/posts/${params.slug}`);
+export default async function BlogSlugRedirect({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  redirect(`/posts/${slug}`);
 }

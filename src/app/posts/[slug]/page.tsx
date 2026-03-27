@@ -12,11 +12,12 @@ import { notFound } from "next/navigation";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.guadagnosmartpro.com";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const article = await getArticleBySlug(params.slug);
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
   if (!article) return { title: "Articolo non trovato" };
 
   return {
@@ -31,4 +32,181 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: article.cover_image ? [{ url: article.cover_image }] : undefined,
     },
   };
+}
+
+export default async function PostPage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+  if (!article) notFound();
+
+  const related = await getRelatedArticles(article.id, article.category_id);
+  const initial = article.author?.charAt(0)?.toUpperCase() || "A";
+  const postUrl = `${SITE_URL}/posts/${article.slug}`;
+
+  // JSON-LD
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt || "",
+    url: postUrl,
+    datePublished: article.published_at,
+    dateModified: article.updated_at,
+    author: { "@type": "Person", name: article.author || "Antonio" },
+    publisher: {
+      "@type": "Organization",
+      name: "GuadagnoSmartPro",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/og-default.png` },
+    },
+    image: article.cover_image || `${SITE_URL}/og-default.png`,
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <Navbar />
+
+      {/* Breadcrumb */}
+      <div className="breadcrumb" style={{ display: "flex" }}>
+        <Link href="/">Home</Link>
+        <span className="sep">›</span>
+        {article.category && (
+          <>
+            <Link href={`/categoria/${article.category.slug}`}>{article.category.name}</Link>
+            <span className="sep">›</span>
+          </>
+        )}
+        <span>{article.title}</span>
+      </div>
+
+      <div className="page">
+        <main>
+          {/* Hero Image */}
+          <div className="post-hero">
+            {article.cover_image && (
+              <Image
+                src={article.cover_image}
+                alt={article.cover_alt || article.title}
+                fill
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            )}
+            {article.category && <span className="hero-badge">{article.category.name}</span>}
+          </div>
+
+          <article>
+            <div className="post-content">
+              <h1 className="post-title">{article.title}</h1>
+
+              <div className="post-meta-bar">
+                <div className="meta-author">
+                  <div className="author-avatar">{initial}</div>
+                  <div>
+                    <div className="author-name">{article.author || "Antonio"}</div>
+                    <div className="author-role">GuadagnoSmartPro</div>
+                  </div>
+                </div>
+                <div className="meta-divider"></div>
+                <div className="meta-item">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path d="M16 2v4M8 2v4M3 10h18" />
+                  </svg>
+                  {article.published_at ? formatDate(article.published_at) : "—"}
+                </div>
+                <div className="meta-item">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                  {article.reading_time || 5} Min
+                </div>
+                <div className="meta-item">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  {article.views || 0}
+                </div>
+                <ShareBar url={postUrl} title={article.title} />
+              </div>
+
+              {/* Article Content */}
+              <div
+                className="post-body"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              />
+
+              {/* Tags */}
+              {article.tags && article.tags.length > 0 && (
+                <div className="post-tags">
+                  {article.tags.map((tag) => (
+                    <Link key={tag.id} href={`/tag/${tag.slug}`} className="tag">
+                      {tag.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Author Box */}
+            <div className="author-box">
+              <div className="author-box-avatar">{initial}</div>
+              <div>
+                <div className="author-box-name">{article.author || "Antonio"}</div>
+                <div className="author-box-role">Fondatore · GuadagnoSmartPro</div>
+                <div className="author-box-bio">
+                  Trader indipendente specializzato in strategie matematiche. Zero conflitti di
+                  interesse, zero guru. Solo numeri e risultati verificabili.
+                </div>
+              </div>
+            </div>
+
+            {/* Related */}
+            {related.length > 0 && (
+              <div className="related">
+                <h3>
+                  <span className="slash">//</span> Articoli Correlati
+                </h3>
+                <div className="related-grid">
+                  {related.map((rel, i) => (
+                    <Link key={rel.slug} href={`/posts/${rel.slug}`} className="rel-card">
+                      <div className="rel-thumb">
+                        {rel.cover_image ? (
+                          <Image
+                            src={rel.cover_image}
+                            alt={rel.cover_alt || rel.title}
+                            width={400}
+                            height={100}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
+                        ) : null}
+                      </div>
+                      <div className="rel-body">
+                        <div className="rel-badge">{rel.category?.name || ""}</div>
+                        <div className="rel-title">{rel.title}</div>
+                        <div className="rel-date">
+                          {rel.published_at ? formatDate(rel.published_at) : ""}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </article>
+        </main>
+
+        <Sidebar />
+      </div>
+
+      <Footer />
+    </>
+  );
 }

@@ -14,11 +14,12 @@ export const metadata: Metadata = {
 };
 
 interface BlogPageProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const page = Number(searchParams.page) || 1;
+  const sp = await searchParams;
+  const page = Number(sp.page) || 1;
   const { articles, totalPages } = await getArticles({ page, limit: 12 });
 
   return (

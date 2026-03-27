@@ -9,12 +9,13 @@ import { getCategoryBySlug, getArticles, getCategories, formatDate } from "@/lib
 import { notFound } from "next/navigation";
 
 interface PageProps {
-  params: { slug: string };
-  searchParams: { page?: string };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const category = await getCategoryBySlug(params.slug);
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
   if (!category) return { title: "Categoria non trovata" };
 
   return {
@@ -25,14 +26,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function CategoriaPage({ params, searchParams }: PageProps) {
-  const category = await getCategoryBySlug(params.slug);
+  const { slug } = await params;
+  const sp = await searchParams;
+  const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const page = Number(searchParams.page) || 1;
+  const page = Number(sp.page) || 1;
   const { articles, totalPages } = await getArticles({
     page,
     limit: 12,
-    categorySlug: params.slug,
+    categorySlug: slug,
   });
 
   const allCategories = await getCategories();
@@ -63,13 +66,13 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
       <div className="cat-tabs-wrap">
         <div className="cat-tabs">
           <Link
-            href={`/categoria/${params.slug}`}
+            href={`/categoria/${slug}`}
             className="cat-tab active"
           >
             Tutti
           </Link>
           {allCategories
-            .filter((c) => c.slug !== params.slug)
+            .filter((c) => c.slug !== slug)
             .map((c) => (
               <Link key={c.slug} href={`/categoria/${c.slug}`} className="cat-tab">
                 {c.name}
@@ -149,7 +152,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
             <div className="pagination">
               {page > 1 && (
                 <Link
-                  href={`/categoria/${params.slug}?page=${page - 1}`}
+                  href={`/categoria/${slug}?page=${page - 1}`}
                   className="page-btn"
                 >
                   ‹
@@ -158,7 +161,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <Link
                   key={p}
-                  href={`/categoria/${params.slug}?page=${p}`}
+                  href={`/categoria/${slug}?page=${p}`}
                   className={`page-btn${p === page ? " active" : ""}`}
                 >
                   {p}
@@ -166,7 +169,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
               ))}
               {page < totalPages && (
                 <Link
-                  href={`/categoria/${params.slug}?page=${page + 1}`}
+                  href={`/categoria/${slug}?page=${page + 1}`}
                   className="page-btn"
                 >
                   ›
