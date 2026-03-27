@@ -7,15 +7,22 @@ export interface Article {
   excerpt: string | null;
   content: string;
   featured_image: string | null;
+  cover_image: string | null;
+  cover_alt: string | null;
+  author: string | null;
   author_name: string;
   author_role: string | null;
   author_bio: string | null;
-  published_at: string;
+  published_at: string | null;
+  updated_at: string | null;
   reading_time: number | null;
+  views: number | null;
   site: SiteId;
   category_id: string | null;
   category?: Category;
   tags?: Tag[];
+  seo_title: string | null;
+  seo_description: string | null;
   status: "draft" | "published";
 }
 
