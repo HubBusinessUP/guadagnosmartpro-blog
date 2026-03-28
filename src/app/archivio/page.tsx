@@ -64,10 +64,8 @@ export default async function ArchivioPage({ searchParams }: ArchivioPageProps) 
               <div className="archive-body">
                 <div className="archive-title-txt">{article.title}</div>
                 <div className="archive-meta">
-                  <div className="meta-avatar">
-                    {article.author?.charAt(0)?.toUpperCase() || "A"}
-                  </div>
-                  <span>{article.author || "Antonio"}</span>
+                  <img src="/author-antony.webp" alt="Antony" className="meta-avatar-img" />
+                  <span>{article.author || "Antony"}</span>
                   <span className="meta-dot">·</span>
                   <span>{article.published_at ? formatDate(article.published_at) : ""}</span>
                 </div>
