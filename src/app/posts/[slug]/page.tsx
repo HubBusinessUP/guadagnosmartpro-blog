@@ -50,7 +50,7 @@ export default async function PostPage({ params }: PageProps) {
     url: postUrl,
     datePublished: article.published_at,
     dateModified: article.updated_at,
-    author: { "@type": "Person", name: article.author || "Antony", url: "https://t.me/caliblackk" },
+    author: { "@type": "Person", name: "Antony", url: "https://t.me/caliblackk" },
     publisher: {
       "@type": "Organization",
       name: "GuadagnoSmartPro",
@@ -104,7 +104,7 @@ export default async function PostPage({ params }: PageProps) {
                 <a href="https://t.me/caliblackk" target="_blank" rel="noopener noreferrer" className="meta-author">
                   <img src="/author-antony.webp" alt="Antony" className="author-avatar-img" />
                   <div>
-                    <div className="author-name">{article.author || "Antony"}</div>
+                    <div className="author-name">{"Antony"}</div>
                     <div className="author-role">GuadagnoSmartPro</div>
                   </div>
                 </a>
@@ -152,7 +152,7 @@ export default async function PostPage({ params }: PageProps) {
             <a href="https://t.me/caliblackk" target="_blank" rel="noopener noreferrer" className="author-box">
               <img src="/author-antony.webp" alt="Antony" className="author-box-avatar-img" />
               <div>
-                <div className="author-box-name">{article.author || "Antony"}</div>
+                <div className="author-box-name">{"Antony"}</div>
                 <div className="author-box-role">Fondatore · GuadagnoSmartPro</div>
                 <div className="author-box-bio">
                   Trader indipendente specializzato in strategie matematiche. Zero conflitti di
