@@ -50,7 +50,7 @@ export default async function PostPage({ params }: PageProps) {
     url: postUrl,
     datePublished: article.published_at,
     dateModified: article.updated_at,
-    author: { "@type": "Person", name: article.author || "Antonio" },
+    author: { "@type": "Person", name: article.author || "Antony", url: "https://t.me/caliblackk" },
     publisher: {
       "@type": "Organization",
       name: "GuadagnoSmartPro",
@@ -101,13 +101,13 @@ export default async function PostPage({ params }: PageProps) {
               <h1 className="post-title">{article.title}</h1>
 
               <div className="post-meta-bar">
-                <div className="meta-author">
-                  <div className="author-avatar">{initial}</div>
+                <a href="https://t.me/caliblackk" target="_blank" rel="noopener noreferrer" className="meta-author">
+                  <img src="/author-antony.webp" alt="Antony" className="author-avatar-img" />
                   <div>
-                    <div className="author-name">{article.author || "Antonio"}</div>
+                    <div className="author-name">{article.author || "Antony"}</div>
                     <div className="author-role">GuadagnoSmartPro</div>
                   </div>
-                </div>
+                </a>
                 <div className="meta-divider"></div>
                 <div className="meta-item">
                   <svg viewBox="0 0 24 24">
@@ -149,10 +149,10 @@ export default async function PostPage({ params }: PageProps) {
               )}
             </div>
 
-            <div className="author-box">
-              <div className="author-box-avatar">{initial}</div>
+            <a href="https://t.me/caliblackk" target="_blank" rel="noopener noreferrer" className="author-box">
+              <img src="/author-antony.webp" alt="Antony" className="author-box-avatar-img" />
               <div>
-                <div className="author-box-name">{article.author || "Antonio"}</div>
+                <div className="author-box-name">{article.author || "Antony"}</div>
                 <div className="author-box-role">Fondatore · GuadagnoSmartPro</div>
                 <div className="author-box-bio">
                   Trader indipendente specializzato in strategie matematiche. Zero conflitti di
