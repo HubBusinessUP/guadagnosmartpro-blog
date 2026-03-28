@@ -39,7 +39,8 @@ export default async function PostPage({ params }: PageProps) {
   if (!article) notFound();
 
   const related = await getRelatedArticles(article.id, article.category_id);
-  const initial = article.author?.charAt(0)?.toUpperCase() || "A";
+  const wordCount = (article.content || "").replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
+  const readingTime = article.reading_time || Math.max(1, Math.ceil(wordCount / 200));
   const postUrl = `${SITE_URL}/posts/${article.slug}`;
 
   const jsonLd = {
@@ -121,7 +122,7 @@ export default async function PostPage({ params }: PageProps) {
                     <circle cx="12" cy="12" r="10" />
                     <path d="M12 6v6l4 2" />
                   </svg>
-                  {article.reading_time || 5} Min
+                  {readingTime} Min
                 </div>
                 <div className="meta-item">
                   <svg viewBox="0 0 24 24">
