@@ -3,13 +3,12 @@ import type { Article, Category, Tag } from "@/types/database";
 
 const SITE: "guadagnosmartpro" = "guadagnosmartpro";
 
-export function calcReadingTime(content: string | null, fallback?: number | null): number {
-  if (fallback && fallback > 0) return fallback;
+export function calcReadingTime(content: string | null): number {
   const words = (content || "").replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
 }
 
-// ─── ARTICLES ───
+// âââ ARTICLES âââ
 
 export async function getArticles({
   page = 1,
@@ -113,7 +112,7 @@ export async function getRelatedArticles(articleId: string, categoryId: string |
   return (data as (Article & { category: Category })[]) || [];
 }
 
-// ─── SEARCH ───
+// âââ SEARCH âââ
 
 export async function searchArticles(query: string, page = 1, limit = 12) {
   const supabase = createServerClient();
@@ -141,7 +140,7 @@ export async function searchArticles(query: string, page = 1, limit = 12) {
   };
 }
 
-// ─── CATEGORIES ───
+// âââ CATEGORIES âââ
 
 export async function getCategories() {
   const supabase = createServerClient();
@@ -203,7 +202,7 @@ export async function getCategoryBySlug(slug: string) {
   return data as Category;
 }
 
-// ─── UTILS ───
+// âââ UTILS âââ
 
 export async function incrementViews(articleId: string) {
   const supabase = createServerClient();
