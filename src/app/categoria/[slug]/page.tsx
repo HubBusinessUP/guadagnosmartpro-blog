@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import PostCard from "@/components/PostCard";
-import { getCategoryBySlug, getArticles, getCategories, formatDate } from "@/lib/queries";
+import { getCategoryBySlug, getArticles, getCategories, formatDate, calcReadingTime } from "@/lib/queries";
 import { notFound } from "next/navigation";
 
 interface PageProps {
@@ -100,7 +100,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
                   <span className="meta-dot">·</span>
                   <span>{featured.published_at ? formatDate(featured.published_at) : ""}</span>
                   <span className="meta-dot">·</span>
-                  <span>{featured.reading_time || 5} Min</span>
+                  <span>{calcReadingTime(featured.content, featured.reading_time)} Min</span>
                 </div>
                 <div className="featured-title">{featured.title}</div>
                 {featured.excerpt && (
