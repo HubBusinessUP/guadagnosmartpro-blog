@@ -95,10 +95,8 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
               </div>
               <div className="featured-body">
                 <div className="featured-meta">
-                  <div className="meta-avatar">
-                    {featured.author?.charAt(0)?.toUpperCase() || "A"}
-                  </div>
-                  <span>{featured.author || "Antonio"}</span>
+                  <img src="/author-antony.webp" alt="Antony" className="meta-avatar-img" />
+                  <span>{featured.author || "Antony"}</span>
                   <span className="meta-dot">·</span>
                   <span>{featured.published_at ? formatDate(featured.published_at) : ""}</span>
                   <span className="meta-dot">·</span>
@@ -122,7 +120,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
                   title={article.title}
                   excerpt={article.excerpt}
                   categoryName={article.category?.name || category.name}
-                  author={article.author || "Antonio"}
+                  author={article.author || "Antony"}
                   readingTime={article.reading_time}
                   coverImage={article.cover_image}
                   coverAlt={article.cover_alt || article.title}
