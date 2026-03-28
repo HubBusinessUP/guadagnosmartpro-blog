@@ -159,7 +159,7 @@ export default async function PostPage({ params }: PageProps) {
                   interesse, zero guru. Solo numeri e risultati verificabili.
                 </div>
               </div>
-            </div>
+            </a>
 
             {related.length > 0 && (
               <div className="related">
