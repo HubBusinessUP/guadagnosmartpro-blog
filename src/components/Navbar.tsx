@@ -10,9 +10,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <nav>
@@ -28,10 +26,14 @@ export default function Navbar() {
           <li className={pathname === "/" ? "active" : ""}>
             <Link href="/">Home</Link>
           </li>
-          <li className={pathname.startsWith("/blog") || pathname.startsWith("/posts") ? "active" : ""}>
-            <Link href="/blog">Blog</Link>
-          </li>
         </ul>
+
+        <Link href="/cerca" className="nav-search-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+        </Link>
 
         <a href={TG_LINK} target="_blank" rel="noopener noreferrer" className="nav-cta">
           Entra nell&apos;Hub →
@@ -49,12 +51,8 @@ export default function Navbar() {
       </div>
 
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        <Link href="/" onClick={() => setMenuOpen(false)}>
-          Home
-        </Link>
-        <Link href="/blog" onClick={() => setMenuOpen(false)}>
-          Blog
-        </Link>
+        <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link href="/cerca" onClick={() => setMenuOpen(false)}>Cerca</Link>
         <a href={TG_LINK} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
           Entra nell&apos;Hub →
         </a>
