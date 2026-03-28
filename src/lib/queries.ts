@@ -27,7 +27,6 @@ export async function getArticles({
     .range(from, to);
 
   if (categorySlug) {
-    // Sub-query: get category id first
     const { data: cat } = await supabase
       .from("categories")
       .select("id")
@@ -67,7 +66,6 @@ export async function getArticleBySlug(slug: string) {
 
   if (error || !article) return null;
 
-  // Get tags
   const { data: articleTags } = await supabase
     .from("article_tags")
     .select("tag_id")
@@ -109,6 +107,34 @@ export async function getRelatedArticles(articleId: string, categoryId: string |
   return (data as (Article & { category: Category })[]) || [];
 }
 
+// ─── SEARCH ───
+
+export async function searchArticles(query: string, page = 1, limit = 12) {
+  const supabase = createServerClient();
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  const { data, count, error } = await supabase
+    .from("articles")
+    .select("*, category:categories(*)", { count: "exact" })
+    .eq("site", SITE)
+    .eq("status", "published")
+    .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%,content.ilike.%${query}%`)
+    .order("published_at", { ascending: false })
+    .range(from, to);
+
+  if (error) {
+    console.error("searchArticles error:", error);
+    return { articles: [], totalPages: 1, total: 0 };
+  }
+
+  return {
+    articles: (data as (Article & { category: Category })[]) || [],
+    totalPages: Math.ceil((count || 0) / limit),
+    total: count || 0,
+  };
+}
+
 // ─── CATEGORIES ───
 
 export async function getCategories() {
@@ -126,6 +152,35 @@ export async function getCategories() {
   }
 
   return (data as Category[]) || [];
+}
+
+export async function getCategoriesWithCount(): Promise<{ category: Category; count: number }[]> {
+  const supabase = createServerClient();
+
+  const { data: categories, error } = await supabase
+    .from("categories")
+    .select("*")
+    .eq("site", SITE)
+    .order("name");
+
+  if (error || !categories) return [];
+
+  const results: { category: Category; count: number }[] = [];
+
+  for (const cat of categories) {
+    const { count } = await supabase
+      .from("articles")
+      .select("id", { count: "exact", head: true })
+      .eq("site", SITE)
+      .eq("status", "published")
+      .eq("category_id", cat.id);
+
+    if ((count || 0) > 0) {
+      results.push({ category: cat as Category, count: count || 0 });
+    }
+  }
+
+  return results;
 }
 
 export async function getCategoryBySlug(slug: string) {
