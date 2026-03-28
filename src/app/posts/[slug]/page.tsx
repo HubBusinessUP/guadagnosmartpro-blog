@@ -40,7 +40,7 @@ export default async function PostPage({ params }: PageProps) {
 
   const related = await getRelatedArticles(article.id, article.category_id);
   const wordCount = (article.content || "").replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
-  const readingTime = article.reading_time || Math.max(1, Math.ceil(wordCount / 200));
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
   const postUrl = `${SITE_URL}/posts/${article.slug}`;
 
   const jsonLd = {
@@ -71,11 +71,11 @@ export default async function PostPage({ params }: PageProps) {
 
       <div className="breadcrumb">
         <Link href="/">Home</Link>
-        <span className="sep">›</span>
+        <span className="sep">âº</span>
         {article.category && (
           <>
             <Link href={`/categoria/${article.category.slug}`}>{article.category.name}</Link>
-            <span className="sep">›</span>
+            <span className="sep">âº</span>
           </>
         )}
         <span>{article.title}</span>
@@ -115,7 +115,7 @@ export default async function PostPage({ params }: PageProps) {
                     <rect x="3" y="4" width="18" height="18" rx="2" />
                     <path d="M16 2v4M8 2v4M3 10h18" />
                   </svg>
-                  {article.published_at ? formatDate(article.published_at) : "—"}
+                  {article.published_at ? formatDate(article.published_at) : "â"}
                 </div>
                 <div className="meta-item">
                   <svg viewBox="0 0 24 24">
@@ -154,7 +154,7 @@ export default async function PostPage({ params }: PageProps) {
               <img src="/author-antony.webp" alt="Antony" className="author-box-avatar-img" />
               <div>
                 <div className="author-box-name">{"Antony"}</div>
-                <div className="author-box-role">Fondatore · GuadagnoSmartPro</div>
+                <div className="author-box-role">Fondatore Â· GuadagnoSmartPro</div>
                 <div className="author-box-bio">
                   Trader indipendente specializzato in strategie matematiche. Zero conflitti di
                   interesse, zero guru. Solo numeri e risultati verificabili.
