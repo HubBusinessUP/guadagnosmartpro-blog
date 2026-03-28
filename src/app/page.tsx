@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import PostCard from "@/components/PostCard";
-import { getArticles } from "@/lib/queries";
+import { getArticles, calcReadingTime } from "@/lib/queries";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +31,7 @@ export default async function HomePage() {
               excerpt={article.excerpt}
               categoryName={article.category?.name || ""}
               author={"Antony"}
-              readingTime={article.reading_time}
+              readingTime={calcReadingTime(article.content, article.reading_time)}
               coverImage={article.cover_image}
               coverAlt={article.cover_alt || article.title}
               gradientIndex={i}
