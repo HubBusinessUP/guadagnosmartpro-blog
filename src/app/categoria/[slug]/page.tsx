@@ -121,7 +121,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
                   excerpt={article.excerpt}
                   categoryName={article.category?.name || category.name}
                   author={"Antony"}
-                  readingTime={article.reading_time}
+                  readingTime={calcReadingTime(article.content, article.reading_time)}
                   coverImage={article.cover_image}
                   coverAlt={article.cover_alt || article.title}
                   gradientIndex={i + 1}
