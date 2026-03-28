@@ -46,13 +46,12 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
     <>
       <Navbar />
 
-      {/* Category Hero */}
       <div className="cat-hero">
         <div className="cat-hero-inner">
-          <div className="cat-breadcrumb">
-            <Link href="/">Home</Link>
-            <span className="sep">›</span>
-            <span>{category.name}</span>
+          <div className="breadcrumb" style={{ margin: "0 0 12px", padding: 0, display: "flex" }}>
+            <Link href="/" style={{ color: "rgba(255,255,255,.85)" }}>Home</Link>
+            <span className="sep" style={{ color: "rgba(255,255,255,.4)", margin: "0 6px" }}>›</span>
+            <span style={{ color: "rgba(255,255,255,.6)" }}>{category.name}</span>
           </div>
           <div className="cat-hero-label">Categoria</div>
           <div className="cat-hero-title">{category.name}</div>
@@ -62,13 +61,9 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
         </div>
       </div>
 
-      {/* Category Tabs */}
       <div className="cat-tabs-wrap">
         <div className="cat-tabs">
-          <Link
-            href={`/categoria/${slug}`}
-            className="cat-tab active"
-          >
+          <Link href={`/categoria/${slug}`} className="cat-tab active">
             Tutti
           </Link>
           {allCategories
@@ -83,7 +78,6 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
 
       <div className="page">
         <main>
-          {/* Featured Article */}
           {featured && (
             <Link href={`/posts/${featured.slug}`} className="featured-card">
               <div className="featured-thumb">
@@ -106,9 +100,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
                   </div>
                   <span>{featured.author || "Antonio"}</span>
                   <span className="meta-dot">·</span>
-                  <span>
-                    {featured.published_at ? formatDate(featured.published_at) : ""}
-                  </span>
+                  <span>{featured.published_at ? formatDate(featured.published_at) : ""}</span>
                   <span className="meta-dot">·</span>
                   <span>{featured.reading_time || 5} Min</span>
                 </div>
@@ -121,7 +113,6 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
             </Link>
           )}
 
-          {/* Article List */}
           {restArticles.length > 0 && (
             <div className="posts">
               {restArticles.map((article, i) => (
@@ -147,16 +138,10 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
             </div>
           )}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               {page > 1 && (
-                <Link
-                  href={`/categoria/${slug}?page=${page - 1}`}
-                  className="page-btn"
-                >
-                  ‹
-                </Link>
+                <Link href={`/categoria/${slug}?page=${page - 1}`} className="page-btn">‹</Link>
               )}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <Link
@@ -168,12 +153,7 @@ export default async function CategoriaPage({ params, searchParams }: PageProps)
                 </Link>
               ))}
               {page < totalPages && (
-                <Link
-                  href={`/categoria/${slug}?page=${page + 1}`}
-                  className="page-btn"
-                >
-                  ›
-                </Link>
+                <Link href={`/categoria/${slug}?page=${page + 1}`} className="page-btn">›</Link>
               )}
             </div>
           )}
