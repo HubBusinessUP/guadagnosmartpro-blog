@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import ShareBar from "@/components/ShareBar";
-import PostCard from "@/components/PostCard";
 import { getArticleBySlug, getRelatedArticles, formatDate } from "@/lib/queries";
 import { notFound } from "next/navigation";
 
@@ -43,7 +42,6 @@ export default async function PostPage({ params }: PageProps) {
   const initial = article.author?.charAt(0)?.toUpperCase() || "A";
   const postUrl = `${SITE_URL}/posts/${article.slug}`;
 
-  // JSON-LD
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -70,8 +68,7 @@ export default async function PostPage({ params }: PageProps) {
 
       <Navbar />
 
-      {/* Breadcrumb */}
-      <div className="breadcrumb" style={{ display: "flex" }}>
+      <div className="breadcrumb">
         <Link href="/">Home</Link>
         <span className="sep">›</span>
         {article.category && (
@@ -85,7 +82,6 @@ export default async function PostPage({ params }: PageProps) {
 
       <div className="page">
         <main>
-          {/* Hero Image */}
           <div className="post-hero">
             {article.cover_image && (
               <Image
@@ -137,13 +133,11 @@ export default async function PostPage({ params }: PageProps) {
                 <ShareBar url={postUrl} title={article.title} />
               </div>
 
-              {/* Article Content */}
               <div
                 className="post-body"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
 
-              {/* Tags */}
               {article.tags && article.tags.length > 0 && (
                 <div className="post-tags">
                   {article.tags.map((tag) => (
@@ -155,7 +149,6 @@ export default async function PostPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Author Box */}
             <div className="author-box">
               <div className="author-box-avatar">{initial}</div>
               <div>
@@ -168,14 +161,13 @@ export default async function PostPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Related */}
             {related.length > 0 && (
               <div className="related">
                 <h3>
                   <span className="slash">//</span> Articoli Correlati
                 </h3>
                 <div className="related-grid">
-                  {related.map((rel, i) => (
+                  {related.map((rel) => (
                     <Link key={rel.slug} href={`/posts/${rel.slug}`} className="rel-card">
                       <div className="rel-thumb">
                         {rel.cover_image ? (
