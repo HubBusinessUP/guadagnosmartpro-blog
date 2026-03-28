@@ -15,6 +15,24 @@ export default async function HomePage() {
       <Navbar />
 
       <div className="page">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "GuadagnoSmartPro",
+              "url": "https://guadagnosmartpro.com",
+              "description": "Portale indipendente su business online, trading e finanza personale. Zero conflitti di interesse, solo contenuti verificati.",
+              "publisher": {
+                "@type": "Organization",
+                "name": "GuadagnoSmartPro",
+                "url": "https://guadagnosmartpro.com"
+              }
+            })
+          }}
+        />
+        <h1 className="sr-only">GuadagnoSmartPro — Business Online, Trading e Finanza Personale</h1>
         <main className="posts">
           {articles.length === 0 && (
             <div style={{ textAlign: "center", padding: "60px 20px", color: "var(--muted)" }}>
