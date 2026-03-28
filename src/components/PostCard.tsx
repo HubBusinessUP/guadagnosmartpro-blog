@@ -52,7 +52,7 @@ export default function PostCard({
       <div className="card-body">
         <div className="card-title">{title}</div>
         <div className="card-meta">
-          <div className="meta-avatar">{initial}</div>
+          <img src="/author-antony.webp" alt={author} className="meta-avatar-img" />
           <span>{author}</span>
           <span className="meta-dot">·</span>
           <span>{readingTime || 5} Min</span>
