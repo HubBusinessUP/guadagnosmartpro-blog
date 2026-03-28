@@ -31,7 +31,7 @@ export default async function HomePage() {
               excerpt={article.excerpt}
               categoryName={article.category?.name || ""}
               author={"Antony"}
-              readingTime={calcReadingTime(article.content, article.reading_time)}
+              readingTime={calcReadingTime(article.content)}
               coverImage={article.cover_image}
               coverAlt={article.cover_alt || article.title}
               gradientIndex={i}
