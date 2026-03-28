@@ -30,7 +30,7 @@ export default async function HomePage() {
               title={article.title}
               excerpt={article.excerpt}
               categoryName={article.category?.name || ""}
-              author={article.author || "Antonio"}
+              author={article.author || "Antony"}
               readingTime={article.reading_time}
               coverImage={article.cover_image}
               coverAlt={article.cover_alt || article.title}
