@@ -28,20 +28,20 @@ export default function ShareBar({ url, title }: ShareBarProps) {
   return (
     <div className="share-btns">
       <a
-        href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+        href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="share-btn sh-fb"
+        className="share-btn sh-wa"
       >
-        Facebook
+        WhatsApp
       </a>
       <a
-        href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+        href={`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="share-btn sh-x"
+        className="share-btn sh-tg"
       >
-        Twitter
+        Telegram
       </a>
       <button className="share-btn sh-link" onClick={copyLink}>
         Copia Link
