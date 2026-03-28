@@ -3,6 +3,12 @@ import type { Article, Category, Tag } from "@/types/database";
 
 const SITE: "guadagnosmartpro" = "guadagnosmartpro";
 
+export function calcReadingTime(content: string | null, fallback?: number | null): number {
+  if (fallback && fallback > 0) return fallback;
+  const words = (content || "").replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 // ─── ARTICLES ───
 
 export async function getArticles({
