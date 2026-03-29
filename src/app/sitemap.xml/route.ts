@@ -1,6 +1,6 @@
 import { createServerClient } from "@/lib/supabase/server";
 
-const SITE_URL = "https://guadagnosmartpro.com";
+const SITE_URL = "https://www.guadagnosmartpro.com";
 
 export async function GET() {
   const supabase = createServerClient();
