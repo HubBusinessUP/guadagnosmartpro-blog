@@ -22,12 +22,12 @@ export default async function HomePage() {
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "GuadagnoSmartPro",
-              "url": "https://guadagnosmartpro.com",
+              "url": "https://www.guadagnosmartpro.com",
               "description": "Portale indipendente su business online, trading e finanza personale. Zero conflitti di interesse, solo contenuti verificati.",
               "publisher": {
                 "@type": "Organization",
                 "name": "GuadagnoSmartPro",
-                "url": "https://guadagnosmartpro.com"
+                "url": "https://www.guadagnosmartpro.com"
               }
             })
           }}
