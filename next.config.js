@@ -15,3 +15,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+// force rebuild - clear ISR cache
