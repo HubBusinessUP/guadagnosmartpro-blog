@@ -8,6 +8,8 @@ import ShareBar from "@/components/ShareBar";
 import { getArticleBySlug, getRelatedArticles, formatDate } from "@/lib/queries";
 import { notFound } from "next/navigation";
 
+export const revalidate = 60;
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.guadagnosmartpro.com";
 interface PageProps {
   params: Promise<{ slug: string }>;
